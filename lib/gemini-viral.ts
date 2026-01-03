@@ -1,15 +1,13 @@
-import { GoogleGenerativeAI } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 import { UserContext, GeminiAnalysis } from '@/types/viral-analysis';
 
-const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const genai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export async function analyzeWithGemini(
   videoBase64: string,
   mimeType: string,
   userContext: UserContext
 ): Promise<GeminiAnalysis> {
-  const model = genai.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
-
   const prompt = `You are a viral content forensic analyst. Your task is to perform a comprehensive analysis of the uploaded video reel using a strict 6-step methodology and evaluate it against a 187-item Master Checklist.
 
 ## CONTEXT PROVIDED BY USER
@@ -338,18 +336,25 @@ Return your analysis as a valid JSON object matching this structure:
 - Maintain clinical objectivity
 - Return ONLY valid JSON`;
 
-  const result = await model.generateContent([
-    {
-      inlineData: {
-        mimeType,
-        data: videoBase64,
+  const result = await genai.models.generateContent({
+    model: 'gemini-2.0-flash-exp',
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          {
+            inlineData: {
+              mimeType,
+              data: videoBase64,
+            },
+          },
+          { text: prompt },
+        ],
       },
-    },
-    { text: prompt },
-  ]);
+    ],
+  });
 
-  const response = await result.response;
-  const text = response.text();
+  const text = result.text || '';
 
   // Extract JSON from response (handle markdown code blocks)
   let jsonText = text;
