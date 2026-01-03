@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { analyzeWithGemini } from '@/lib/gemini-viral';
+import { analyzeWithGemini } from '@/lib/gemini-viral-simple';
 import { evaluateWithGPT, generateScript, evaluateScript, reviseScript } from '@/lib/openai-viral';
 import {
   UserContext,

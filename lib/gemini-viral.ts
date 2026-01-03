@@ -378,18 +378,32 @@ Return your analysis as a valid JSON object matching this structure:
     console.error('First 500 chars:', jsonText.substring(0, 500));
     console.error('Last 500 chars:', jsonText.substring(jsonText.length - 500));
 
-    // Try to fix common JSON issues
-    let fixedJson = jsonText
-      .replace(/\n/g, ' ')  // Remove newlines that might break strings
-      .replace(/\t/g, ' ')  // Remove tabs
-      .replace(/\r/g, ' ')  // Remove carriage returns
-      .replace(/  +/g, ' '); // Replace multiple spaces with single space
+    // Try to fix common JSON issues more aggressively
+    let fixedJson = jsonText;
+
+    // Fix unescaped newlines within string values
+    // This regex finds string values and escapes newlines within them
+    fixedJson = fixedJson.replace(/"([^"]*)":/g, (match) => {
+      return match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
+    });
+
+    // Also fix in array and object values
+    fixedJson = fixedJson.replace(/: "([^"]*)"/g, (match) => {
+      return match.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t');
+    });
 
     try {
       analysis = JSON.parse(fixedJson);
       console.log('JSON fixed and parsed successfully');
     } catch (secondError) {
-      throw new Error(`Failed to parse Gemini response as JSON. Original error: ${error instanceof Error ? error.message : 'Unknown error'}. Length: ${jsonText.length} chars`);
+      // Last resort: save the problematic JSON to a file for inspection
+      console.error('Failed to fix JSON. Saving to /tmp/failed-gemini-response.json');
+      if (typeof window === 'undefined') {
+        // Only on server side
+        const fs = require('fs');
+        fs.writeFileSync('/tmp/failed-gemini-response.json', jsonText);
+      }
+      throw new Error(`Failed to parse Gemini response as JSON. Original error: ${error instanceof Error ? error.message : 'Unknown error'}. Length: ${jsonText.length} chars. Second error: ${secondError instanceof Error ? secondError.message : 'Unknown'}`);
     }
   }
 
