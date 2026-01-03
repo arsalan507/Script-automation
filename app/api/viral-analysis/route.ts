@@ -104,9 +104,9 @@ export async function POST(request: NextRequest) {
 
       const revisionRequest = {
         iteration: currentIteration + 1,
-        failed_sections: scriptEvaluation.specific_failures,
+        failed_sections: scriptEvaluation.specific_failures || [],
         specific_issues: scriptEvaluation.critical_failures,
-        regenerate_only: scriptEvaluation.failed_sections || [],
+        regenerate_only: scriptEvaluation.specific_failures || [],
       };
 
       revisions.push(revisionRequest);
