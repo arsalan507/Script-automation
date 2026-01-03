@@ -48,7 +48,7 @@ export async function evaluateWithGPT(
     ],
     response_format: { type: 'json_object' },
     temperature: 0.7,
-    max_tokens: 16000,
+    max_tokens: 4096, // GPT-4 Turbo max completion tokens
   });
 
   const content = response.choices[0].message.content;
@@ -92,7 +92,7 @@ export async function generateScript(
     ],
     response_format: { type: 'json_object' },
     temperature: 0.8,
-    max_tokens: 16000,
+    max_tokens: 4096, // GPT-4 Turbo max completion tokens
   });
 
   const content = response.choices[0].message.content;
@@ -131,7 +131,7 @@ export async function evaluateScript(
     ],
     response_format: { type: 'json_object' },
     temperature: 0.5,
-    max_tokens: 12000,
+    max_tokens: 4096, // GPT-4 Turbo max completion tokens
   });
 
   const content = response.choices[0].message.content;
@@ -172,7 +172,7 @@ export async function reviseScript(
     ],
     response_format: { type: 'json_object' },
     temperature: 0.8,
-    max_tokens: 16000,
+    max_tokens: 4096, // GPT-4 Turbo max completion tokens
   });
 
   const content = response.choices[0].message.content;
