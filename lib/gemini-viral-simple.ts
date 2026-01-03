@@ -103,7 +103,7 @@ IMPORTANT:
       config: {
         responseMimeType: 'application/json',
         temperature: 0.4, // Lower temperature for more consistent output
-        maxOutputTokens: 8192,
+        maxOutputTokens: 4096, // Max supported by gemini-2.0-flash-exp
       },
     });
 
