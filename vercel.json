@@ -3,5 +3,11 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "functions": {
+    "app/api/viral-analysis/route.ts": {
+      "maxDuration": 300,
+      "memory": 1024
+    }
+  }
 }

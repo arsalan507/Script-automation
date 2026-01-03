@@ -10,6 +10,10 @@ import {
   ViralReelAnalysisResult,
 } from '@/types/viral-analysis';
 
+// Vercel serverless function configuration
+export const runtime = 'nodejs';
+export const maxDuration = 300; // 5 minutes (requires Pro plan)
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -20,6 +24,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'No video file provided' },
         { status: 400 }
+      );
+    }
+
+    // Check file size (Vercel limit: 4.5MB on Hobby, 100MB on Pro)
+    const maxSize = 50 * 1024 * 1024; // 50MB limit
+    if (videoFile.size > maxSize) {
+      return NextResponse.json(
+        { error: `Video file too large. Maximum size is ${maxSize / (1024 * 1024)}MB. Your file is ${(videoFile.size / (1024 * 1024)).toFixed(2)}MB.` },
+        { status: 413 }
       );
     }
 
