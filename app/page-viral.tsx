@@ -6,7 +6,7 @@ import ViralAnalysisProgress from '@/components/ViralAnalysisProgress';
 import ViralAnalysisResults from '@/components/ViralAnalysisResults';
 import { UserContext, ViralReelAnalysisResult } from '@/types/viral-analysis';
 
-export default function Home() {
+export default function ViralAnalysisPage() {
   const [analysisResult, setAnalysisResult] = useState<ViralReelAnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentPhase, setCurrentPhase] = useState(0);
