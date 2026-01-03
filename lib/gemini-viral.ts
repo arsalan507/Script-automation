@@ -352,6 +352,10 @@ Return your analysis as a valid JSON object matching this structure:
         ],
       },
     ],
+    config: {
+      responseMimeType: 'application/json',
+      temperature: 0.7,
+    },
   });
 
   const text = result.text || '';
@@ -364,7 +368,30 @@ Return your analysis as a valid JSON object matching this structure:
     jsonText = text.split('```')[1].split('```')[0].trim();
   }
 
-  const analysis: GeminiAnalysis = JSON.parse(jsonText);
+  // Try to parse JSON with error handling
+  let analysis: GeminiAnalysis;
+  try {
+    analysis = JSON.parse(jsonText);
+  } catch (error) {
+    console.error('JSON parse error:', error);
+    console.error('JSON text length:', jsonText.length);
+    console.error('First 500 chars:', jsonText.substring(0, 500));
+    console.error('Last 500 chars:', jsonText.substring(jsonText.length - 500));
+
+    // Try to fix common JSON issues
+    let fixedJson = jsonText
+      .replace(/\n/g, ' ')  // Remove newlines that might break strings
+      .replace(/\t/g, ' ')  // Remove tabs
+      .replace(/\r/g, ' ')  // Remove carriage returns
+      .replace(/  +/g, ' '); // Replace multiple spaces with single space
+
+    try {
+      analysis = JSON.parse(fixedJson);
+      console.log('JSON fixed and parsed successfully');
+    } catch (secondError) {
+      throw new Error(`Failed to parse Gemini response as JSON. Original error: ${error instanceof Error ? error.message : 'Unknown error'}. Length: ${jsonText.length} chars`);
+    }
+  }
 
   return analysis;
 }
