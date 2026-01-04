@@ -1,0 +1,44 @@
+═══════════════════════════════════════════════════════════
+    VIRAL REEL ANALYSIS - NETWORK ACCESS DETAILS
+═══════════════════════════════════════════════════════════
+
+📱 MOBILE/TABLET ACCESS URL:
+   http://192.168.68.135:3000
+
+🖥️  DESKTOP ACCESS URL:
+   http://localhost:3000
+
+───────────────────────────────────────────────────────────
+
+📋 QUICK INSTRUCTIONS:
+
+1. Connect your device to the same WiFi network
+2. Open the URL above in any browser
+3. Upload a viral reel (MP4, MOV, AVI)
+4. Fill in the context form:
+   - Niche/Industry
+   - Category  
+   - Product/Service
+   - Target Outcome
+   - Target Audience
+5. Click "Start Analysis"
+6. Wait 2-4 minutes for complete analysis
+
+───────────────────────────────────────────────────────────
+
+⚡ FEATURES:
+✓ Phase 1: Gemini 2.0 Flash - 187 checkpoints
+✓ Phase 2: GPT-4 Evaluation - 123 checkpoints  
+✓ Phase 3: Script Generation
+✓ Phase 4: Script Evaluation - 150 checkpoints
+✓ Phase 5: Script Revision (up to 3 iterations)
+
+───────────────────────────────────────────────────────────
+
+🎯 RECOMMENDED VIDEO SPECS:
+• Format: MP4, MOV, AVI
+• Duration: 15-45 seconds
+• Size: Under 50MB
+• Resolution: 1080p recommended
+
+═══════════════════════════════════════════════════════════
